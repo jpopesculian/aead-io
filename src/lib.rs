@@ -5,7 +5,7 @@
 //! ```
 //! # use aead_io::{DecryptBE32BufReader, EncryptBE32BufWriter, ArrayBuffer};
 //! # use aead::stream::{Nonce, StreamBE32};
-//! # use aead::NewAead;
+//! # use aead::KeyInit;
 //! # use chacha20poly1305::{ChaCha20Poly1305, Key};
 //! # use std::io::{Read, Write, Result};
 //! # fn main() -> Result<()> {
@@ -92,14 +92,14 @@ mod tests {
     use super::*;
     use aead::generic_array::ArrayLength;
     use aead::stream::{NewStream, Nonce, NonceSize, StreamBE32, StreamPrimitive};
-    use aead::{AeadCore, AeadInPlace, Key, NewAead};
+    use aead::{AeadCore, AeadInPlace, Key, KeyInit};
     use chacha20poly1305::ChaCha20Poly1305;
     use core::ops::Sub;
     use std::io::{Read, Write};
 
     fn encrypt_decrypt<A, S>(plaintext: &[u8])
     where
-        A: AeadInPlace + NewAead + Clone,
+        A: AeadInPlace + KeyInit + Clone,
         S: StreamPrimitive<A> + NewStream<A>,
         <A as AeadCore>::NonceSize: Sub<S::NonceOverhead>,
         NonceSize<A, S>: ArrayLength<u8>,

@@ -3,12 +3,12 @@ use crate::error::{Error, InvalidCapacity};
 use crate::rw::Read;
 use aead::generic_array::ArrayLength;
 use aead::stream::{Decryptor, NewStream, Nonce, NonceSize, StreamPrimitive};
-use aead::{AeadInPlace, Key, NewAead};
+use aead::{AeadInPlace, Key, KeyInit};
 use core::ops::Sub;
 
 pub enum MaybeUninitDecryptor<A, S>
 where
-    A: AeadInPlace + NewAead,
+    A: AeadInPlace + KeyInit,
     S: StreamPrimitive<A> + NewStream<A>,
     A::NonceSize: Sub<S::NonceOverhead>,
     NonceSize<A, S>: ArrayLength<u8>,
@@ -20,7 +20,7 @@ where
 
 impl<A, S> MaybeUninitDecryptor<A, S>
 where
-    A: AeadInPlace + NewAead,
+    A: AeadInPlace + KeyInit,
     S: StreamPrimitive<A> + NewStream<A>,
     A::NonceSize: Sub<S::NonceOverhead>,
     NonceSize<A, S>: ArrayLength<u8>,
@@ -59,7 +59,7 @@ where
 /// reading
 pub struct DecryptBufReader<A, B, R, S>
 where
-    A: AeadInPlace + NewAead,
+    A: AeadInPlace + KeyInit,
     S: StreamPrimitive<A> + NewStream<A>,
     A::NonceSize: Sub<S::NonceOverhead>,
     NonceSize<A, S>: ArrayLength<u8>,
@@ -74,7 +74,7 @@ where
 
 impl<A, B, R, S> DecryptBufReader<A, B, R, S>
 where
-    A: AeadInPlace + NewAead,
+    A: AeadInPlace + KeyInit,
     B: ResizeBuffer + CappedBuffer,
     S: StreamPrimitive<A> + NewStream<A>,
     A::NonceSize: Sub<S::NonceOverhead>,
@@ -129,7 +129,7 @@ where
 
 impl<A, B, R, S> DecryptBufReader<A, B, R, S>
 where
-    A: AeadInPlace + NewAead,
+    A: AeadInPlace + KeyInit,
     B: ResizeBuffer + CappedBuffer,
     R: Read,
     S: StreamPrimitive<A> + NewStream<A>,
@@ -213,7 +213,7 @@ where
 #[cfg(feature = "std")]
 impl<A, B, R, S> std::io::Read for DecryptBufReader<A, B, R, S>
 where
-    A: AeadInPlace + NewAead,
+    A: AeadInPlace + KeyInit,
     B: ResizeBuffer + CappedBuffer,
     R: Read,
     R::Error: Into<std::io::Error>,
@@ -229,7 +229,7 @@ where
 #[cfg(not(feature = "std"))]
 impl<A, B, R, S> Read for DecryptBufReader<A, B, R, S>
 where
-    A: AeadInPlace + NewAead,
+    A: AeadInPlace + KeyInit,
     B: ResizeBuffer + CappedBuffer,
     R: Read,
     S: StreamPrimitive<A> + NewStream<A>,

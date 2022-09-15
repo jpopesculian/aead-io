@@ -4,7 +4,7 @@ use crate::rw::Write;
 use aead::generic_array::typenum::Unsigned;
 use aead::generic_array::ArrayLength;
 use aead::stream::{Encryptor, NewStream, Nonce, NonceSize, StreamPrimitive};
-use aead::{AeadCore, AeadInPlace, Key, NewAead};
+use aead::{AeadCore, AeadInPlace, Key, KeyInit};
 use core::ops::Sub;
 use core::{mem, ptr};
 
@@ -52,7 +52,7 @@ where
         writer: W,
     ) -> Result<Self, InvalidCapacity>
     where
-        A: NewAead,
+        A: KeyInit,
         S: NewStream<A>,
     {
         buffer.truncate(0);
@@ -75,7 +75,7 @@ where
         writer: W,
     ) -> Result<Self, InvalidCapacity>
     where
-        A: NewAead,
+        A: KeyInit,
         S: NewStream<A>,
     {
         buffer.truncate(0);

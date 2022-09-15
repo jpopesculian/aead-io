@@ -1,13 +1,13 @@
 [package]
 name = "aead-io"
-version = "0.1.4"
+version = "0.2.0"
 edition = "2018"
-authors = ["Julian Popescu <jpopesculian@gmail.com>"]
+authors = ["Julian Popescu <hi@julian.dev>"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
-homepage = "https://github.com/riddleandcode/aead-io"
+homepage = "https://github.com/jpopesculian/aead-io"
 documentation = "https://docs.rs/aead-io/"
-repository = "https://github.com/riddleandcode/aead-io"
+repository = "https://github.com/jpopesculian/aead-io"
 description = "A wrapper around Write/Read interfaces with AEAD"
 keywords = ["aead", "io", "encryption", "decryption", "cryptography"]
 categories = ["cryptography", "no-std"]
@@ -20,11 +20,11 @@ alloc = ["aead/alloc"]
 array-buffer = ["arrayvec"]
 
 [dependencies]
-aead = { version = "0.4.3", default-features = false, features = ["stream"] }
-arrayvec = { version = "0.7.2", optional = true, default-features = false }
+aead = { version = "0.5", default-features = false, features = ["stream"] }
+arrayvec = { version = "0.7", optional = true, default-features = false }
 
 [dev-dependencies]
-aead = { version = "0.4.3", default-features = false, features = ["alloc"] }
-chacha20poly1305 = "0.9.0"
-rand = "0.8.5"
-tempfile = "3.3.0"
+aead = { version = "0.5", default-features = false, features = ["alloc"] }
+chacha20poly1305 = "0.10"
+rand = "0.8"
+tempfile = "3.3"
